@@ -9,6 +9,9 @@ on:
     branches:
       - main
 
+  schedule:
+    - cron: "30 7 * * *"
+
 jobs:
   take-screenshot:
     runs-on: macos-latest
