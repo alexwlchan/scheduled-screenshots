@@ -12,7 +12,7 @@ if [[ -f "$screenshot_path" ]]
 then
   npx playwright screenshot \
     --full-page \
-    --wait-for-timeout 2000 \
+    --wait-for-timeout 10000 \
     https://alexwlchan.net \
     "$screenshot_path"
   git add "$screenshot_path"
