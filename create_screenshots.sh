@@ -6,13 +6,17 @@ set -o nounset
 mkdir -p screenshots
 
 today=$(date +"%Y-%m-%d")
+screenshot_path="screenshots/alexwlchan.net.$today.png"
 
-npx playwright screenshot \
-  --full-page \
-  --wait-for-timeout 2000 \
-  https://alexwlchan.net \
-  "screenshots/alexwlchan.net.$today.png"
-git add "screenshots/alexwlchan.net.$today.png"
+if [[ -f "$screenshot_path" ]]
+then
+  npx playwright screenshot \
+    --full-page \
+    --wait-for-timeout 2000 \
+    https://alexwlchan.net \
+    "$screenshot_path"
+  git add "$screenshot_path"
 
-git commit -m "Add screenshots for $today"
-git push origin main
+  git commit -m "Add screenshots for $today"
+  git push origin main
+fi
