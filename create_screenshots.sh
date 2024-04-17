@@ -7,7 +7,11 @@ mkdir -p screenshots
 
 today=$(date +"%Y-%m-%d")
 
-npx playwright screenshot https://alexwlchan.net "screenshots/alexwlchan.net.$today.png"
+npx playwright screenshot \
+  --full-page \
+  --wait-for-timeout 2000 \
+  https://alexwlchan.net \
+  "screenshots/alexwlchan.net.$today.png"
 git add "screenshots/alexwlchan.net.$today.png"
 
 git commit -m "Add screenshots for $today"
