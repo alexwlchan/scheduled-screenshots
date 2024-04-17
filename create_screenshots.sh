@@ -8,7 +8,7 @@ mkdir -p screenshots
 today=$(date +"%Y-%m-%d")
 screenshot_path="screenshots/alexwlchan.net.$today.png"
 
-if [[ -f "$screenshot_path" ]]
+if [[ ! -f "$screenshot_path" ]]
 then
   npx playwright screenshot \
     --full-page \
