@@ -10,6 +10,8 @@ screenshot_path="screenshots/alexwlchan.net.$today.png"
 
 if [[ ! -f "$screenshot_path" ]]
 then
+  npm install playwright-chromium
+
   npx playwright screenshot \
     --full-page \
     --wait-for-timeout 10000 \
