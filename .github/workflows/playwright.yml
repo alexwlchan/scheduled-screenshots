@@ -31,4 +31,7 @@ jobs:
           node-version: '20'
 
       - name: Take screenshot
-        run: bash take_screenshot.sh
+        run: |
+          npm install --save-exact playwright-chromium
+          cat package-lock.json
+        # bash take_screenshot.sh
