@@ -5,8 +5,11 @@ set -o nounset
 
 mkdir -p screenshots
 
+DOMAIN="alexwlchan.net"
+SCREENSHOT_NAME="alexwlchan.net"
+
 today=$(date +"%Y-%m-%d")
-screenshot_path="screenshots/alexwlchan.net.$today.png"
+screenshot_path="screenshots/$SCREENSHOT_NAME.$today.png"
 
 if [[ ! -f "$screenshot_path" ]]
 then
@@ -15,8 +18,7 @@ then
   npx playwright screenshot \
     --full-page \
     --wait-for-timeout 10000 \
-    https://alexwlchan.net \
-    "$screenshot_path"
+    "$DOMAIN_NAME" "$screenshot_path"
   git add "$screenshot_path"
 
   git commit -m "Add screenshots for $today"
