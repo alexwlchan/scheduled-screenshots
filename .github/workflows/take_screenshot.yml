@@ -34,9 +34,8 @@ jobs:
       - name: Install Chrome for Playwright
         run: npx playwright install
 
-      - name: Take screenshot
-        run: |
-          npx playwright screenshot https://example.com example.png
-          # npm install --save-exact playwright-chromium
-          # cat package-lock.json
-        # bash take_screenshot.sh
+      - name: Take screenshot with Playwright
+        run: bash take_screenshot.sh
+        env:
+          URL: alexwlchan.net
+          SCREENSHOT_NAME: alexwlchan.net
