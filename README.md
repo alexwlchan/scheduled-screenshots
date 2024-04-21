@@ -2,6 +2,8 @@
 
 This is a script that takes a screenshot of the homepage of my website once a week.
 
+![A graphic showing multiple screenshots arranged into a stack, as if they were in a timeline – older screenshots towards the back, newer screenshots towards the front](scheduled-screenshots.png)
+
 ## Why?
 
 I want to keep a record of the "look and feel" of my website.
