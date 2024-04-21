@@ -31,6 +31,9 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Install Chrome for Playwright
+        run: npx playwright install
+
       - name: Take screenshot
         run: |
           npx playwright screenshot https://example.com example.png
