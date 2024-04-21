@@ -19,6 +19,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+        # Make sure we don't download the existing screenshots as part
+        # of this process -- this Action is strictly append-only, so
+        # don't waste limited LFS bandwidth on it.
+        lfs: false
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
