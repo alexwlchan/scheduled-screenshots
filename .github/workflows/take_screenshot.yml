@@ -1,4 +1,4 @@
-name: Take Screenshot
+name: Take screenshot
 
 on:
   push:
@@ -29,6 +29,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      - name: Take screenshot
+      - name: Install Chrome for Playwright
+        run: npx playwright install
+
+      - name: Take screenshot with Playwright
         run: bash take_screenshot.sh
+        env:
+          URL: alexwlchan.net
+          SCREENSHOT_NAME: alexwlchan.net
