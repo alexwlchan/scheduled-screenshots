@@ -1,17 +1,12 @@
-name: Take screenshot of my book tracker
+name: Take screenshot
 
 on:
   push:
     branches:
       - main
 
-  pull_request:
-    branches:
-      - main
-
   schedule:
-    # Every Monday at 8:30am UTC
-    - cron: "30 8 * * 1"
+    - cron: '7 7 * * 1'  # Every Monday at 7:07am UTC
 
 jobs:
   take-screenshot:
@@ -29,14 +24,27 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 20
 
-      - name: Install Chrome for Playwright
-        run: npx playwright install
+      - name: Take screenshot
+        run: |
+          npm install playwright-chrome
 
-      - name: Take screenshot with Playwright
-        run: bash take_screenshot.sh
+          today=$(date +"%Y-%m-%d")
+          screenshot_path="screenshots/$SCREENSHOT_NAME.$today.png"
+
+          mkdir -p "$(dirname "$screenshot_path")"
+
+          if [[ -f "$screenshot_path" ]]; then exit 0; fi
+
+          npx playwright screenshot \
+            --full-page \
+            --wait-for-timeout 10000 \
+            "$URL" "$screenshot_path"
+
+          git add --all
+          git commit -m "Add screenshots for $today" || exit 0
+          git push origin main
         env:
           URL: books.alexwlchan.net
           SCREENSHOT_NAME: books
