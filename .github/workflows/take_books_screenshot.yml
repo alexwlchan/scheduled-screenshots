@@ -6,7 +6,7 @@ on:
       - main
 
   schedule:
-    - cron: '7 7 * * 1'  # Every Monday at 7:07am UTC
+    - cron: '8 8 * * 1'  # Every Monday at 8:08am UTC
 
 jobs:
   take-screenshot:
