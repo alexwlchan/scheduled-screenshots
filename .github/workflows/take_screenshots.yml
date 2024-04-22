@@ -16,9 +16,9 @@ jobs:
       matrix:
         include:
           - url: alexwlchan.net
-            screenshot_name: alexwlchan.net
+            filename_prefix: alexwlchan.net
           - url: books.alexwlchan.net
-            screenshot_name: books
+            filename_prefix: books
 
       # Setting max-parallel ensures that these jobs will run in serial,
       # not parallel, so we don't have conflicting tasks trying to
@@ -43,7 +43,7 @@ jobs:
       - name: Take screenshot
         run: |
           today=$(date +"%Y-%m-%d")
-          screenshot_path="screenshots/${{ matrix.screenshot_name }}.$today.png"
+          screenshot_path="screenshots/${{ matrix.filename_prefix }}.$today.png"
 
           mkdir -p "$(dirname "$screenshot_path")"
 
