@@ -19,6 +19,10 @@ jobs:
             screenshot_name: alexwlchan.net
           - url: books.alexwlchan.net
             screenshot_name: books
+
+      # Setting max-parallel ensures that these jobs will run in serial,
+      # not parallel, so we don't have conflicting tasks trying to
+      # push new commits.
       max-parallel: 1
 
     steps:
@@ -46,14 +50,14 @@ jobs:
 
           if [[ -f "$screenshot_path" ]]; then exit 0; fi
 
-          npx playwright install chromium
+          npm playwright install chromium
 
-          npx playwright screenshot \
+          npm playwright screenshot \
             --full-page \
             --wait-for-timeout 10000 \
             "${{ matrix.url }}" "$screenshot_path"
 
           git pull origin main
-          git add --all
-          git commit -m "Add screenshots for ${{ matrix.url }} for $today" || exit 0
+          git add "$screenshot_path"
+          git commit -m "Add screenshot for ${{ matrix.url }} for $today" || exit 0
           git push origin main
