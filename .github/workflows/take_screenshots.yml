@@ -73,5 +73,5 @@ jobs:
       - name: Push changes to GitHub
         run: |
           git add "$screenshot_path"
-          git commit -m "Add screenshot for ${{ matrix.url }} for $today"
+          git commit -m "Add screenshot for ${{ matrix.url }} for $today" || exit 0
           git push origin main
