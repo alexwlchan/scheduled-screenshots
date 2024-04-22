@@ -30,6 +30,12 @@ jobs:
         uses: actions/checkout@v4
 
         with:
+          # Check out the latest version of main, which may not be the
+          # commit that triggered this event -- jobs in this workflow will
+          # push new commits and update main, and we want each job to
+          # get the latest code from main.
+          ref: main
+
           # Make sure we don't download the existing screenshots as part
           # of this process -- this Action is strictly append-only, so
           # don't waste limited LFS bandwidth on it.
@@ -40,29 +46,31 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install Playwright and browser
+        run: |
+          npm install playwright
+          npx playwright install chromium
+
       - name: Take screenshot
         run: |
           today=$(date +"%Y-%m-%d")
           screenshot_path="screenshots/${{ matrix.filename_prefix }}.$today.png"
 
+          # Make this path available to subsequent steps
+          # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+          echo "screenshot_path=$screenshot_path" >> "$GITHUB_ENV"
+
           mkdir -p "$(dirname "$screenshot_path")"
 
           if [[ -f "$screenshot_path" ]]; then exit 0; fi
-
-          npm install playwright
-          npx playwright install chromium
 
           npx playwright screenshot \
             --full-page \
             --wait-for-timeout 10000 \
             "${{ matrix.url }}" "$screenshot_path"
 
-          # The actions/checkout step will check out the commit that
-          # triggered this workflow, but main may have advanced if
-          # a previous job pushed a commit.  Pull it first.
-          git pull origin main
-
-          # Add the new screenshot and push it to GitHub.
+      - name: Push changes to GitHub
+        run: |
           git add "$screenshot_path"
           git commit -m "Add screenshot for ${{ matrix.url }} for $today"
           git push origin main
