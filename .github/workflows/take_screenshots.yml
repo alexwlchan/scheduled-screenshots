@@ -56,8 +56,9 @@ jobs:
           today=$(date +"%Y-%m-%d")
           screenshot_path="screenshots/${{ matrix.filename_prefix }}.$today.png"
 
-          # Make this path available to subsequent steps
+          # Make these variables available to subsequent steps
           # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+          echo "today=$today" >> "$GITHUB_ENV"
           echo "screenshot_path=$screenshot_path" >> "$GITHUB_ENV"
 
           mkdir -p "$(dirname "$screenshot_path")"
