@@ -39,7 +39,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Take screenshot
         run: |
@@ -50,9 +49,10 @@ jobs:
 
           if [[ -f "$screenshot_path" ]]; then exit 0; fi
 
-          npm playwright install chromium
+          npm install
+          npx playwright install chromium
 
-          npm playwright screenshot \
+          npx playwright screenshot \
             --full-page \
             --wait-for-timeout 10000 \
             "${{ matrix.url }}" "$screenshot_path"
