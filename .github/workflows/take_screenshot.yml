@@ -13,12 +13,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - env:
-              URL: alexwlchan.net
-              SCREENSHOT_NAME: alexwlchan.net
-          - env:
-              URL: books.alexwlchan.net
-              SCREENSHOT_NAME: books
+          - url: alexwlchan.net
+            screenshot_name: alexwlchan.net
+          - url: books.alexwlchan.net
+            screenshot_name: books
       max-parallel: 1
 
   take-screenshot:
@@ -41,7 +39,7 @@ jobs:
       - name: Take screenshot
         run: |
           today=$(date +"%Y-%m-%d")
-          screenshot_path="screenshots/$SCREENSHOT_NAME.$today.png"
+          screenshot_path="screenshots/${{ matrix.screenshot_name }}.$today.png"
 
           mkdir -p "$(dirname "$screenshot_path")"
 
@@ -53,7 +51,7 @@ jobs:
           npx playwright screenshot \
             --full-page \
             --wait-for-timeout 10000 \
-            "$URL" "$screenshot_path"
+            "${{ matrix.url }}" "$screenshot_path"
 
           git add --all
           git commit -m "Add screenshots for $URL for $today" || exit 0
