@@ -53,6 +53,7 @@ jobs:
             --wait-for-timeout 10000 \
             "${{ matrix.url }}" "$screenshot_path"
 
+          git pull origin main
           git add --all
           git commit -m "Add screenshots for ${{ matrix.url }} for $today" || exit 0
           git push origin main
