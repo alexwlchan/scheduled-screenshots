@@ -28,14 +28,15 @@ jobs:
 
       - name: Take screenshot
         run: |
-          npm install playwright-chrome
-
           today=$(date +"%Y-%m-%d")
           screenshot_path="screenshots/$SCREENSHOT_NAME.$today.png"
 
           mkdir -p "$(dirname "$screenshot_path")"
 
           if [[ -f "$screenshot_path" ]]; then exit 0; fi
+
+          npm install playwright-chrome
+          npx playwright install
 
           npx playwright screenshot \
             --full-page \
