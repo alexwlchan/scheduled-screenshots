@@ -49,7 +49,7 @@ jobs:
 
           if [[ -f "$screenshot_path" ]]; then exit 0; fi
 
-          npm install
+          npm install playwright
           npx playwright install chromium
 
           npx playwright screenshot \
