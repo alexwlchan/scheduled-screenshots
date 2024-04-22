@@ -57,7 +57,12 @@ jobs:
             --wait-for-timeout 10000 \
             "${{ matrix.url }}" "$screenshot_path"
 
+          # The actions/checkout step will check out the commit that
+          # triggered this workflow, but main may have advanced if
+          # a previous job pushed a commit.  Pull it first.
           git pull origin main
+
+          # Add the new screenshot and push it to GitHub.
           git add "$screenshot_path"
-          git commit -m "Add screenshot for ${{ matrix.url }} for $today" || exit 0
+          git commit -m "Add screenshot for ${{ matrix.url }} for $today"
           git push origin main
