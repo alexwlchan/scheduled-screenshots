@@ -9,6 +9,18 @@ on:
     - cron: '7 7 * * 1'  # Every Monday at 7:07am UTC
 
 jobs:
+  websites:
+    strategy:
+      matrix:
+        include:
+          - env:
+              URL: alexwlchan.net
+              SCREENSHOT_NAME: alexwlchan.net
+          - env:
+              URL: books.alexwlchan.net
+              SCREENSHOT_NAME: books
+      max-parallel: 1
+
   take-screenshot:
     runs-on: macos-latest
     steps:
@@ -26,7 +38,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Take screenshot (alexwlchan.net)
+      - name: Take screenshot
         run: |
           today=$(date +"%Y-%m-%d")
           screenshot_path="screenshots/$SCREENSHOT_NAME.$today.png"
@@ -44,29 +56,5 @@ jobs:
             "$URL" "$screenshot_path"
 
           git add --all
-          git commit -m "Add screenshots for $today" || exit 0
+          git commit -m "Add screenshots for $URL for $today" || exit 0
           git push origin main
-        env:
-          URL: alexwlchan.net
-          SCREENSHOT_NAME: alexwlchan.net
-
-      - name: Take screenshot (book tracker)
-        run: |
-          today=$(date +"%Y-%m-%d")
-          screenshot_path="screenshots/$SCREENSHOT_NAME.$today.png"
-
-          mkdir -p "$(dirname "$screenshot_path")"
-
-          if [[ -f "$screenshot_path" ]]; then exit 0; fi
-
-          npx playwright screenshot \
-            --full-page \
-            --wait-for-timeout 10000 \
-            "$URL" "$screenshot_path"
-
-          git add --all
-          git commit -m "Add screenshots for $today" || exit 0
-          git push origin main
-        env:
-          URL: books.alexwlchan.net
-          SCREENSHOT_NAME: books
