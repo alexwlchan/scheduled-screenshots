@@ -18,3 +18,12 @@ It saves that screenshot in this repo.
 
 I filled in the historical archive with screenshots from the Wayback Machine.
 (First I [got a list of captures](https://alexwlchan.net/til/2024/get-a-list-of-captures-from-the-wayback-machine/), then I [took a screenshot of each capture](https://alexwlchan.net/til/2024/take-a-wayback-machine-screenshot/).)
+
+## Can I do this for my own site?
+
+If you want to set up scheduled screenshots for one of your websites, you can copy my setup:
+
+1. Create a new GitHub repository
+2. Create a new file `.github/workflows/take_screenshots.yml` with the contents of [the same file in this repo](https://github.com/alexwlchan/scheduled-screenshots/blob/main/.github/workflows/take_screenshots.yml)
+3. Give [write access](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions) to the `GITHUB_TOKEN` used by GitHub Actions, so it can push to your repo
+4. Change the list of URLs/filename prefixes in the `matrix` block for the websites you want to screenshot
